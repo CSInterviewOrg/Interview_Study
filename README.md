@@ -13,6 +13,7 @@ CS 스터디 및 면접 준비
 
 ### 스터디 자료
 * [backend-interview-question](https://github.com/ksundong/backend-interview-question)
+* [interviewbit](https://www.interviewbit.com/)
 
 ### 스터디 규칙
 1. 주 2회 (온라인 1h + 오프라인 2h)
