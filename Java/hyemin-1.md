@@ -348,55 +348,12 @@ ex) InputStream, OutputStream, Reader, Writer, Connection, BufferReader, FileRea
 - 동시성 이슈는 멀티 스레드 환경에서 여러 스레드가 공유 자원에 동시에 접근할 때 발생하는 문제
 
 > 동시성 이슈 주요 원인 / 해결 방법
-```java
-// 공유자원, 경쟁조건, 원자성 문제 예시
-public class Counter {
-    private int counter = 0;
-
-    public void increment() {
-        counter++;
-    }
-    public int getCounter() {
-        return counter;
-    }
-}
-public class MyThread extends Thread {
-    private Counter counter;
-
-    public MyThread(Counter counter) {
-        this.counter = counter;
-    }
-    @Override
-    public void run() {
-        for (int i = 0; i < 1000; i++) {
-            counter.increment();
-        }
-    }
-}
-
-public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        Counter counter = new Counter();
-        Thread t1 = new MyThread(counter);
-        Thread t2 = new MyThread(counter);
-
-        t1.start();
-        t2.start();
-
-        t1.join();
-        t2.join();
-
-        System.out.println("Final counter value: " + counter.getCounter());
-    }
-}
-```
 - 공유 자원 ( Shared Resource ) 이란? <br> 
  : 여러 스레드가 동시에 접근하는 자원. 공유 자원은 변수, 객체, 파일, 데이터베이스 등이 될수있음 <br>
- : 위 예시에서: Counter 객체의 counter 변수는 힙 영역에 저장되며, t1과 t2 스레드가 동시에 이 변수에 접근하여 값을 변경합니다. 이 변수는 모든 스레드가 공유하는 자원
 
 - 경쟁 조건 ( Race Condition ) <br>
  : 여러 스레드가 동일한 자원에 접근하여 값을 변경할 때, 결과가 스레드의 실행 순서에 따라 달라지는 문제 <br>
- :  t1과 t2 스레드가 동시에 counter++ 연산을 수행하려고 할 때 경쟁이 발생합니다. 두 스레드가 동일한 값을 읽고 각각 증가시키는 과정에서 순서에 따라 최종 결과가 달라질 수 있음 <br>
+
 - 경쟁 조건 해결 방법 <br> 
   : synchronized 키워드를 사용함으로써 한번에 하나의 스레드만 특정 코드 블록이나 메서드에 접근할 수 있도록 보장 <br>
   : java.util.concurrent.locks.Lock 인터페이스를 구현한 ReentrantLock 사용 <br>
@@ -404,7 +361,7 @@ public class Main {
   
 - 원자성 문제 ( Atomicity Issue ) <br>
  : 원자성은 작업이 "분할 불가능"한 단위로 실행되어야 함. 하지만 원자성이 보장되지 않으면, 여러 단계의 작업이 수행되는 도중 다른 스레드가 개입하여 데이터의 일관성 깨질 수 있음 <br>
- : counter++ 연산은 원자적이지 않기 때문에(단일 작업으로 실행되지 않고), 중간에 다른 스레드가 개입해 값이 잘못될 수 있음 <br>
+
 - 원자성 문제 해결 방법 <br>
  : synchronized 키워드를 사용함으로써 한번에 하나의 스레드만 특정 코드 블록이나 메서드에 접근할 수 있도록 보장 <br>
  : java.util.concurrent.locks.Lock 인터페이스를 구현한 ReentrantLock 사용 <br>
