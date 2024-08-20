@@ -190,7 +190,7 @@ TempClass tempInstance = new TempClass();
 ## Checked Exception과 Unchecked Exception에 대해 설명해주세요. 스프링 트랜잭션 추상화에서 rollback 대상은 무엇일까요?
 - Checked Exception: 컴파일러가 예외 처리를 강제하는 예외로 컴파일 시점에 예외가 발생하는 Exception입니다.
 - Unchecked Exception: 컴파일러가 예외 처리를 강제하지 않는 예외로 런타임 시점에 발생하는 Exception입니다.
-- 기본적으로는 Checked Exception이 발생할 시 스프링에서 트랜잭션 롤백이 진행됩니다. 하지만 특정 Exception에 대해서 롤백을 원하는 경우 옵션 값에 원하는 Exception을 지정하면 해당 예외가 발생할 때 롤백이 진행됩니다.
+- 기본적으로는 UnChecked Exception이 발생할 시 스프링에서 트랜잭션 롤백이 진행됩니다. 하지만 특정 Exception에 대해서 롤백을 원하는 경우 옵션 값에 원하는 Exception을 지정하면 해당 예외가 발생할 때 롤백이 진행됩니다.
 
 #### 자바의 예외 클래스 계층 구조에 대해서 설명해주실 수 있나요?
 ```jsx
