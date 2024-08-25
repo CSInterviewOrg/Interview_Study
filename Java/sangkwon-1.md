@@ -292,7 +292,7 @@ try (ResourceType1 resource1 = new ResourceType1();
 - 빈 초기화: 빈이 생성되고 의존성 주입이 끝난 후 빈의 상태를 설정하거나 추가 작업을 하는 것으로 @PostConstruct 하는 것을 말합니다.
 - Spring DI 동작 방식: 스프링에서 의존성 주입의 동작 방식은 리플렉션 기반으로 진행됩니다.
   1) 빈 등록 시 수집된 빈의 의존성 주입 방법에 대한 메타 데이터를 BeanDefinition 객체에서 확인
-  2) BeanPostProcessor(빈 후처리기)에서 각 빈의 의존성 주입 방법 확인
+  2) BeanPostProcessor(빈 후처리기)에서 각 빈의 의존성 주입 방법을 BeanDefinition 객체 객체로부터 확인
   3) DependencyResolver 클래스를 통해서 의존 주입을 진행하는 객체를 찾고 리플렉션을 이용해서 주입
 
 ## Spring Bean이란 무엇인가요?
