@@ -1,0 +1,377 @@
+
+# Spring
+
+## Spring DI/IoC는 어떻게 동작하나요?
+>  DI ( Dependency Injection ) 
+1. 객체 간의 결합도를 낮추기 위해 의존성을 외부에서 주입하는 방식으로 IoC의 구현 방식 중 하나입니다. 
+2. 동작 원리 
+- 객체 생성 및 의존성 관리 : Spring 컨테이너가 애플리케이션 실행 시 객체(Bean)을 생성하고 관리합니다
+- 의존성 주입 : Spring 컨테이너는 생성된 객체들 간의 의존성을 설정 파일, 어노테이션, java config를 기반으로 자동으로 주입합니다
+- 주입 방식 : DI는 생성자 주입, 필드 주입, 세터 주입 3가지 방식 <br>
+-> 생성자 주입 : 객체 생성 시 필요한 의존성을 생성자를 통해 전달. 장점은 불변 객체를 만들수 있고, 테스트에서 Mock 주입이 용이하지만, 단점은 의존성이 많을 경우 생성자가 복잡해질수 있습니다.  <br>
+-> 세터 주입 : 세터 메서드를 통해 의존성을 주입.  <br>
+-> 필드 주입 : 어노테이션을 사용해 필드에 직접 의존성을 주입. 과거에 많이 사용한 방법 <br>
+
+
+> IoC ( Inversion of Control )
+1. 제어의 역전 개념으로 객체의 생성과 의존성 관리를 개발자가 아닌 프레임워크가 담당하는 구조로, 객체지향 설계의 핵심 원칙 중 하나로 객체간 결합도를 줄여 유지보수성을 높입니다.
+2. 동작 원리 
+- Bean 정의 및 등록 : 설정파일 (xml, config) 또는 어노테이션 ( @Component, @Service, @Repository, @Bean ) 을 통해 Bean을 정의 
+- 컨테이너 초기화 : Spring 애플리케이션이 실행되면 IoC 컨테이너가 초기화되며, 필요한 Bean을 생성
+- 의존성 주입 : IoC 컨테이너는 각 Bean 간의 의존성을 분석하고, 주입이 필요할 때 자동으로 의존성 주입 
+- Bean 라이프사이클 관리 : IoC 컨테이너는 Bean의 생명주기를 관리
+
+> IoC와 DI의 차이점은? 
+- IoC는 큰 개념으로, 객체 생성과 의존성 주입의 제어권을 Spring으로 넘기는것을 의미하며, DI는 이러한 IoC를 실현하는 구체적인 방법으로, 외부에서 객체의 의존성을 주입하는 방식을 말합니다. 즉, DI는 IoC의 구현 방식 중 하나입니다. 
+
+> Sping의 IoC 컨테이너는 Bean을 어떻게 관리하나요? 
+- 설정파일, 어노테이션, Java config를 통해 Bean을 등록하고, 생성 시 의존성을 주입. 컨테이너는 이 Bean들을 싱글톤, 프로토타입 등의 다양한 스코프로 관리하며 , 애플리케이션 구동 시점에 필요한 Bean을 미리 준비
+
+
+## DI 종류는 어떤것이 있고, 이들의 차이는 무엇인가요?
+> 생성자 주입 (Constructor Injection) 
+- 의존성을 생성자를 통해 주입하는 방식. 가장 권장되는 방법.
+- 생성자에 @Autowired 어노테이션 추가 
+- 필수적인 의존성을 명시적으로 제공하며, 불변성 보장
+  
+> 세터 주입 (Setter Injection)
+- 클래스의 세터 메서드를 통해 의존성을 주입하는 방식.
+- setter Property에 @Autowired 어노테이션 추가
+- 선택적인 의존성에 대해 유연함을 제공하나, 객체가 완전히 초기화되기 전에 사용될 위험이 존재
+  
+> 필드 주입 (Field Injection)
+- 클래스의 필드에 직접 의존성을 주입하는 방식.
+- 필드에 대해서 @Autowired 어노테이션 추가
+- 코드량이 적고 간결하지만, 테스트와 재사용성의 측면에서 단점이 존재 
+- 현재는 좋은 방식이 아니라는 의견이 있어서 테스트 코드 이외에는 잘 사용하지 않고, 인텔리제이에서도 not recommend라고 뜸
+
+> 왜 생성자 주입을 권장하나요?
+- 객체를 생성할 때, 생성자에서 의존성이 필요한 파라미터가 주어진다면, 의존성이 주입되지 않는 객체를 생성할 수 없다는 것을 확신할 수 있습니다.
+또한 스프링 컨테이너(IoC컨테이너)에서도 의존성을 주입할 Bean을 체크할 다른 로직이 필요 없어지므로 NPE를 방지할 수 있습니다.
+- 의존성 주입이 필요한 객체를 final로 할 수 있어서 불변성을 가질수 있게 됩니다.  
+
+출처 <br> 
+https://github.com/Next-Squad/Interview-Question/issues/19
+
+## Spring Bean이란 무엇인가요?
+- Sping IoC 컨테이너에 의해 관리되는 객체를 말합니다. Spring 애플리케이션에서 생성되고 관리되는 모든 객체는 Spring Bean입니다. 
+ Bean들은 Spring 컨테이너에 의해 생성, 주입, 관리, 소멸되며, 필요한 의존성을 자동으로 주입받아 사용됩니다. Spring 에서 모든 중요한 비즈니스 로직 객체들은 Bean으로 등록되어 IoC 컨테이너에서 관리됩니다. 
+
+## 스프링 Bean의 생성 과정을 설명해주세요.
+- Bean 등록 : 개발자가 XML 설정 파일, Java설정, 어노테이션(@Controller, @Service, @repository, @Component)을 통해 Bean을 정의하고 등록 
+- Bean 인스턴스화 : IoC가 컨테이너가 애플리케이션 시작 시점에 등록된 Bean을 인스턴스화 합니다. 
+- 의존성 주입 : 인스턴스화된 Bean에 필요한 의존성을 컨테이너가 주입합니다.(DI) 이 과정은 생성자 주입, 세터 주입, 필드 주입으로 이루어집니다. 
+- 초기화 메서드 호출 : Bean이 초기화되며, 만약 설정된 초기화 메서드가 있다면 해당 메서드가 호출됩니다. 
+- Bean 사용 : Bean은 애플리케이션 내에서 사용됩니다. 컨테이너는 애플리케이션 실행 동안 Bean을 관리합니다. 
+- 소멸 메서드 호출 : 애플리케이션 종료 시점에 Bean이 소멸되며, 설정된 소멸 메서드가 호출됩니다. 
+
+> 생성 주기 
+- 객체 생성 -> 의존 설정 -> 초기화 -> 사용 -> 소멸
+- 스프링 컨테이너가 초기화 될때 먼저 빈 객체를 설정 정보에 맞추어 생성하고, 의존관계를 설정한 뒤에 해당 프로세스가 완료되면 빈 객체가 지정한 메서드를 호출해서 초기화한다. 객체를 사용한 뒤 컨테이너가 종료될때 빈이 지정한 메서드를 호출해 소멸 과정을 진행한다
+
+## 스프링 Bean의 Scope에 대해서 설명해주세요.
+출처 <br> 
+https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html
+https://code-lab1.tistory.com/186
+
+> 정의
+- Bean Scope는 Spring IoC컨테이너에서 Bean이 생성되고 관리되는 범위
+
+> 종류 
+1. Singleton (싱글톤)
+   - 기본 스코프이며, Spring IoC 컨테이너 당 하나의 인스턴스만 생성. 애플리케이션 전체에서 동일한 객체를 공유
+2. Prototype (프로토타입)
+  - 요청 시마다 새로운 Bean 인스턴스를 생성. 상태가 있는 객체나 매 요청마다 새 객체가 필요한 경우에 유용
+3. Request (요청 스코프)
+  -  웹 애플리케이션에서 HTTP 요청 당 하나의 Bean 인스턴스를 생성하며, 요청이 끝나면 소멸
+4. Session (세션 스코프)
+  - HTTP 세션 당 하나의 Bean 인스턴스를 생성하고, 세션이 종료되면 소멸. 사용자의 로근 세션 동안 상태를 유지하는데 사용 
+5. Application (애플리케이션 스코프)
+  - 서블릿 컨텍스트의 생명주기와 동일한 범위를 가짐. 애플리케이션 전역에서 공유되는 객체를 관리할 때 사용 
+6. WebSocket
+  - WebSocket 세션당 하나의 Bean 인스턴스를 생성. 실시간 통신을 처리할 때 사용
+
+> 웹 애플리케이션에서 Request 스코프와 Session 스코프의 차이점은 무엇인가요?
+- Request 스코프는 HTTP 요청 당 하나의 Bean을 생성하고, Session 스코프는 HTTP 세션당 하나의 Bean을 생성합니다.
+
+## IoC 컨테이너의 역할은 무엇이 있을까요?
+> 정의
+- Spring의 핵심 요소로, 객체의 생성 및 관리, 의존성 주입, 생명주기 제어 등을 담당. IoC 컨테이너는 개발자가 객체의 생성과 관리를 직접 하지 않도록 해주며 객체간의 결합도를 낮추어 애플리케이션의 유연성과 테스트 용이성을 높이는 역할 
+
+> 역할
+1. 객체의 생성 및 관리
+   - IoC 컨테이너는 애플리케이션에 필요한 객체(Bean)을 생성하고, 관리. 개발자가 객체를 직접 생성하는 대신 Spring 컨테이너가 대신 처리
+2. 의존성 주입 (DI)
+   -  IoC 컨테이너는 객체 간의 의존성을 설정 파일이나 어노테이션 기반으로 주입. 이를 통해 객체 간의 결합도를 낮추고, 유연한 설계 가능
+3. Bean 등록 및 검색
+   - 설정된 Bean들을 관리하며, 필요할 때 Bean을 검색하고 제공.
+4. Bean의 생명주기 관리
+   - Bean의 생성, 초기화, 소멸까지의 전 과정을 관리. 초기화 메서드(@PostConstruct)와 소멸 메서드(@PreDestroy)를 통해 Bean의 생명주기 중 특정 작업을 수행
+5. Bean 스코프 관리
+   - 각 Bean의 스코프를 관리
+6. AOP(Aspect-Oriented Programming) 지원
+   - AOP를 지원하며, 로깅, 트랜잭션 관리 등 횡단 관심사를 별도의 코드로 분리하여 관리
+
+> IoC 컨테이너가 Bean을 어떻게 관리하나요?
+- IoC 컨테이너는 설정 파일, 어노테이션 또는 Java Config를 기반으로 Bean을 생성하고, 의존성을 주입한 후 생명주기를 관리
+
+ > Spring IoC 컨테이너의 두 가지 주요 구현체는 무엇인가요?
+- 주요 구현체로는 BeanFactory와 ApplicationContext가 있습니다. ApplicationContext는 더 많은 기능을 제공하며, 대부분의 Spring 애플리케이션에서 사용
+
+> BeanFactory와 ApplicationContext의 차이점은 무엇인가요?
+-  BeanFactory는 기본적인 DI 기능만 제공하는 반면, ApplicationContext는 추가적으로 AOP, 이벤트 리스닝, 메시지 리소스 처리 등의 기능을 제공
+
+> Spring에서 Bean의 생명주기를 관리하기 위한 어노테이션은 무엇인가요?
+- @PostConstruct와 @PreDestroy 어노테이션을 사용하여 Bean의 초기화 및 소멸 시점을 제어
+
+> IoC 컨테이너에서 Bean의 스코프를 설정하는 방법은 무엇인가요?
+- @Scope 어노테이션을 사용하여 Bean의 스코프를 설정할 수 있습니다. 기본 스코프는 싱글톤(Singleton)
+
+> Spring IoC 컨테이너에서 AOP를 어떻게 지원하나요?
+- IoC 컨테이너는 AspectJ와 같은 AOP 프레임워크와 통합되어 횡단 관심사를 처리합니다. 이를 통해 트랜잭션, 로깅 등 공통 기능을 모듈화
+
+
+## Autowiring 과정에 대해서 설명해주세요.
+> 정의
+- Spring에서 의존성 주입(DI)를 자동으로 처리하는 방법
+- Spring 컨테이너가 @Autowired, @Inject, @Resource 등의 어노테이션을 사용해 필요한 의존성을 자동으로 주입
+
+> 주입 방식 
+- 타입(Type) 기준 주입: @Autowired를 통해 Bean을 타입 기준으로 주입. 동일한 타입의 Bean이 여러 개 있을 경우, @Qualifier를 사용해 특정 Bean을 지정할 수 있음
+- 생성자 주입: 생성자에 @Autowired를 사용해 의존성을 주입. 최근에는 생성자 주입이 권장.
+- 필드 주입: 필드에 직접 @Autowired를 사용해 주입
+- 세터 주입: 세터 메서드에 @Autowired를 사용해 주입
+  
+> 과정
+- Spring 컨테이너는 애플리케이션 구동 시, @Autowired가 지정된 필드, 생성자, 세터 메서드를 스캔
+- 해당 필드나 메서드의 타입에 맞는 Bean을 검색하여 주입
+- 만약 주입할 수 있는 Bean이 없다면 예외를 발생시키거나, required=false 설정으로 예외를 무시
+
+> @Autowired를 사용할 때 타입 충돌이 발생하면 어떻게 해결하나요?
+- 타입 충돌이 발생할 때는 @Qualifier 어노테이션을 사용해 특정 Bean을 명시적으로 지정해 주입할 수 있습니다. 예를 들어, 동일한 타입의 Bean이 여러 개 있을 경우, @Qualifier("beanName")을 사용하여 원하는 Bean을 선택합니다.
+
+> 필드 주입과 생성자 주입의 장단점을 설명해 주세요.
+- 생성자 주입은 불변성과 테스트의 용이성을 보장하며, 필수 의존성을 강제할 수 있습니다. 반면 필드 주입은 코드가 간결하지만, 테스트에서 Mock 주입이 어려워 유지보수가 어렵습니다. 일반적으로 생성자 주입이 권장됩니다.
+
+> @Autowired와 @Inject의 차이점은 무엇인가요?
+- @Autowired는 Spring의 고유 어노테이션이며, @Inject는 Java 표준 JSR-330 어노테이션입니다. 둘 다 유사한 기능을 하지만, @Autowired는 required=false 속성을 통해 주입이 선택적일 수 있습니다.
+
+
+
+## Spring Web MVC의 Dispatcher Servlet의 동작 원리에 대해서 간단히 설명해주세요.
+출처 <br> 
+https://github.com/Next-Squad/Interview-Question/issues/48
+
+> 정의
+- Spring Web MVC에서 요청을 처리하는 핵심 구성 요소
+- 프론트 컨트롤러 패턴을 따르며, 클라이언트로부터의 모든 요청을 받아 적절한 컨트롤러로 전달하고, 응답을 반환
+- 
+> 동작 과정
+- 클라이언트 요청: 클라이언트가 웹 요청을 보냅니다.
+- 요청 처리: DispatcherServlet이 요청을 받고, 이를 처리하기 위한 컨트롤러를 찾습니다.
+- 핸들러 매핑: HandlerMapping을 통해 해당 요청에 매핑된 컨트롤러를 검색합니다.
+- 핸들러 어댑터: 컨트롤러에 요청을 전달해 결과를 반환받습니다.
+- 뷰 리졸버: 반환된 데이터를 바탕으로 어떤 뷰를 사용할지 결정합니다.
+- 뷰 렌더링: 최종적으로 뷰를 렌더링하고 클라이언트에게 응답을 보냅니다.
+
+> DispatcherServlet의 역할은 무엇인가요?
+- DispatcherServlet은 Spring MVC에서 모든 HTTP 요청을 받아들이고, 이를 적절한 컨트롤러에 전달해 처리한 뒤 결과를 클라이언트에게 반환하는 프론트 컨트롤러입니다.
+
+> HandlerMapping과 HandlerAdapter의 역할을 설명해 주세요.
+- HandlerMapping은 요청 URI에 따라 적절한 컨트롤러를 찾는 역할을 하고, HandlerAdapter는 해당 컨트롤러를 호출해 요청을 처리하는 어댑터 역할을 합니다.
+
+> DispatcherServlet이 없는 Spring 애플리케이션이 가능한가요?
+- 네. Spring Web MVC가 아닌 순수한 Spring 애플리케이션에서는 DispatcherServlet이 필요하지 않으며, 대신 다른 방식으로 요청을 처리할 수 있습니다.
+
+
+## 프론트 컨트롤러 패턴이란 무엇인가요?
+> 정의
+- 웹 애플리케이션의 진입 지점을 하나로 통합하는 디자인 패턴입니다. 모든 요청이 하나의 중앙 컨트롤러(프론트 컨트롤러)를 통해 처리되고, 이후 필요한 컨트롤러나 뷰로 요청이 전달됩니다. Spring의 DispatcherServlet이 이 패턴임
+
+> 장점 
+- 중앙 집중화된 요청 처리
+- 공통 작업(인증, 로깅, 예외 처리 등)을 한 곳에서 처리 가능
+- 애플리케이션 구조를 단순화
+
+> 프론트 컨트롤러 패턴을 사용하는 이유는 무엇인가요?
+- 프론트 컨트롤러 패턴을 사용하면 모든 요청을 하나의 중앙 컨트롤러에서 처리하므로, 공통 기능(예: 인증, 로깅)을 일관성 있게 관리할 수 있습니다.
+
+> 프론트 컨트롤러 패턴과 관련된 Spring 구성 요소는 무엇인가요?
+- Spring에서 프론트 컨트롤러 패턴을 구현한 대표적인 구성 요소는 DispatcherServlet입니다. 이 서블릿이 모든 HTTP 요청을 받아 컨트롤러에 전달합니다.
+
+> 프론트 컨트롤러 패턴을 구현하지 않은 경우 발생할 수 있는 문제는 무엇인가요?
+- 요청을 개별 컨트롤러에서 직접 처리하면 코드 중복이 발생하고, 공통 기능을 관리하기 어려워집니다. 또한 유지보수성이 떨어지며 애플리케이션의 복잡도가 증가할 수 있습니다.
+
+## Servlet Filter와 Spring Interceptor의 차이는 무엇인가요?
+> 차이점
+- Servlet Filter와 Spring Interceptor는 요청과 응답을 가로채는 데 사용되지만, 서로 다른 레벨에서 동작
+  
+> Servlet Filter
+- 동작 위치: 서블릿 컨테이너 레벨에서 동작하며, 서블릿 요청 이전과 이후에 실행됩니다.
+- 기능: 요청과 응답의 전처리/후처리, 인증 및 인가, 로깅, 데이터 압축 등.
+- 적용 범위: 모든 서블릿과 리소스에 적용될 수 있습니다.
+
+> Spring Interceptor
+- 동작 위치: Spring MVC 레벨에서 동작하며, 컨트롤러에 도달하기 전후에 실행됩니다.
+- 기능: 특정 요청의 전처리/후처리, 인증, 데이터 검증 등.
+- 적용 범위: Spring MVC의 핸들러에만 적용됩니다.
+
+> Servlet Filter와 Spring Interceptor 중 어느 것을 사용해야 할지 결정하는 기준은 무엇인가요?
+- 전역적인 요청 처리나 리소스 관리가 필요하다면 Servlet Filter를 사용하고, Spring MVC의 컨트롤러 요청 전후 처리라면 Spring Interceptor를 사용합니다.
+> Spring에서 Filter와 Interceptor를 함께 사용할 수 있나요?
+- 네, 가능합니다. Filter는 서블릿 레벨에서, Interceptor는 Spring MVC 레벨에서 동작하므로, 둘을 함께 사용하여 요청을 여러 단계에서 처리할 수 있습니다.
+> Spring Interceptor에서 preHandle, postHandle, afterCompletion의 차이점은 무엇인가요?
+- preHandle은 컨트롤러 실행 전, postHandle은 컨트롤러 실행 후, afterCompletion은 View 렌더링 후에 호출됩니다.
+
+## Spring에서 CORS 에러를 해결하기 위한 방법을 설명해주세요.
+- CORS(Cross-Origin Resource Sharing) 에러는 클라이언트가 다른 도메인에서 리소스를 요청할 때 발생
+  > 해결 방법
+  1. @CrossOrigin 어노테이션을 사용하여 특정 컨트롤러나 메서드에서 CORS 정책을 설정
+  ``` java
+  @CrossOrigin(origins = "http://example.com", allowedHeaders = "*", allowCredentials = "true")
+  @GetMapping("/api/data")
+  public ResponseEntity<String> getData() {
+      return ResponseEntity.ok("data");
+  }
+  ```
+  2. WebMvcConfigurer를 구현하여 전역적으로 CORS 설정을 관리
+  ``` java
+  @Configuration
+  public class WebConfig implements WebMvcConfigurer {
+      @Override
+      public void addCorsMappings(CorsRegistry registry) {
+          registry.addMapping("/**")
+                  .allowedOrigins("http://example.com")
+                  .allowedMethods("GET", "POST");
+      }
+  }
+  ```
+
+  3. Spring Security 설정에 CORS를 추가하여 보안 설정과 함께 적용
+  ``` java
+  @Configuration
+  public class SecurityConfig extends WebSecurityConfigurerAdapter {
+      @Override
+      protected void configure(HttpSecurity http) throws Exception {
+          http.cors()
+         .and()
+         .csrf().disable() // 필요에 따라 CSRF 비활성화
+         .authorizeRequests()
+         .anyRequest().authenticated();
+      }
+  }
+
+  ```
+
+> CORS 에러가 발생하는 원인은 무엇인가요?
+- CORS 에러는 클라이언트가 다른 도메인에서 서버 자원을 요청할 때, 서버가 그 도메인을 허용하지 않을 경우 발생합니다. 이는 보안 상의 이유로 브라우저가 차단하기 때문입니다.
+> Spring Security 설정에서 CORS를 처리하는 방법은 무엇인가요?
+- Spring Security에서는 HttpSecurity.cors()를 사용해 전역적인 CORS 설정을 할 수 있습니다. 추가적으로 WebMvcConfigurer를 통해 세부 설정을 제어할 수 있습니다.
+> @CrossOrigin 어노테이션을 사용할 때 주의할 점은 무엇인가요?
+- @CrossOrigin 어노테이션은 특정 컨트롤러나 메서드에만 적용되므로, 전체 애플리케이션에 적용할 때는 WebMvcConfigurer를 사용하는 것이 좋습니다.
+
+
+## Bean/Component 어노테이션에 대해서 설명해주시고, 둘의 차이점에 대해 설명해주세요.
+- @Bean과 @Component는 모두 Spring에서 Bean을 등록하기 위한 어노테이션이지만, 사용하는 방식과 목적이 다름.
+
+> @Bean
+- 외부 라이브러리들을 Bean으로 등록하고 싶은 경우 사용
+- 개발자가 생성한 인스턴스를 spring에게 Bean으로 관리해 달라고 요청하는 경우
+- 1개 이상의 @Bean을 제공하는 클래스의 경우 반드시 @Configuration을 명시해 주어야 싱글톤이 보장
+- 매소드 레벨에서 선언
+
+> @Component
+- 개발자가 직접 컨트롤이 가능한 class 경우 사용
+- spring이 직접 인스턴스를 생성하여 Bean으로 등록하도록 하는 경우
+- @Component는 @Service, @Repository, @Controller 등으로 확장
+- 클래스 레벨에서 선언
+
+> 차이점
+- @Bean은 수동으로 Bean을 등록할 때 사용되며, 개발자가 Bean의 생성을 완전히 제어
+- @Component는 자동 스캔을 통해 Bean을 등록하며, 개발자는 클래스에 어노테이션만 추가
+  
+> @Component와 @Bean의 사용 시점은 언제인가요?
+- @Component는 클래스 수준에서 객체를 Bean으로 등록할 때 사용하고, @Bean은 개발자가 특정 메서드를 통해 직접 Bean을 생성하여 등록할 때 사용합니다.
+
+> @Bean을 사용하는 이유는 무엇인가요?
+- @Bean은 복잡한 객체 생성이나 외부 라이브러리 객체를 Spring 컨테이너에 등록해야 할 때 유용합니다. 이를 통해 수동으로 Bean을 설정하고 관리할 수 있습니다.
+
+> @Component, @Bean 스이 이루어지지 않을 때, 이를 해결하는 방법은 무엇인가요?
+1. @Component 스캔이 되지 않을 때
+- 원인 : 주로 스캔 대상 패키지가 @ComponentScan에 포함되지 않았을 경우 
+- 해결 방안 : @ComponentScan을 사용해 대상 패키지를 명시적으로 설정
+<br> 
+2. @Bean 스캔이 되지 않을 때
+- 원인 : @Configuration 클래스가 Spring 컨텍스트에서 인식되지 않거나, 특정 프로파일이 활성화되지 않았기 때문
+- 해결 방안 : @Configuration 클래스를 확인하거나, 프로파일 설정(application.yml, application.properties)을 확인
+
+## POJO란 무엇인가요? Spring Framework에서 POJO는 무엇이 될 수 있을까요?
+> 정의
+- Plain old java object
+- 특정 프레임워크, 라이브러리, 규약 등에 종속되지 않는 순수한 자바 객체
+
+> 특징
+- 특정 라이브러리나 프레임워크에 종속되지 않고, 비즈니스 로직을 구현할때 자유롭게 사용가능하며, 특정 API나 프레임워크에 대한 의존성이 없기 때문에 다른 환경에서도 쉽게 활용이 가능
+  
+> Spring Framework에서 POJO는 무엇이 될 수 있을까요?
+- 도메인 객체 (Domain Objects) : 비즈니스 도메인의 개념을 표현하는 클래스들로, 엔티티, 값 객체 등이 해당. 비즈니스 로직과 데이터를 담고 있음
+- DTO (Data Transfer Object) : 계층 간 데이터 전송을 위해 사용되는 객체로, 주로 요청 또는 응답 데이터를 담기 위해 사용됩니다. DTO는 데이터를 담고 전달하는 역할만 하며, 스프링과 같은 프레임워크에 종속되지 않음
+- 비즈니스 로직을 가진 서비스 클래스 (어노테이션이 없는 경우) : 특정 어노테이션 없이 작성된 비즈니스 로직을 담당하는 서비스 클래스
+- 유틸리티 클래스 (Utility Classes) : 문자열 처리, 날짜 계산 등을 수행하는 헬퍼 클래스
+- 레포지토리 인터페이스 (Repository Interface) : 스프링 데이터 JPA나 다른 ORM 프레임워크의 레포지토리를 구현하는 인터페이스 자체
+
+>  POJO와 Spring Bean의 차이점은 무엇인가요?
+- POJO는 특정 프레임워크에 의존하지 않는 순수한 자바 객체. Spring Bean은 Spring 컨테이너에 의해 관리되는 객체로, POJO일 수도 있지만 Spring의 관리 하에 생명주기, 의존성 주입 등이 추가적으로 적용
+
+> Spring Framework는 POJO 기반으로 설계되었다고 하는데, POJO가 특정 프레임워크에 의존하지 않는 이유는 무엇인가요?
+- POJO는 특정 인터페이스나 상속을 강제하지 않으며, Spring은 POJO를 관리하기 위해 IoC 컨테이너를 사용. POJO는 프레임워크에 종속되지 않고 순수 자바 객체로 작성되어, 다양한 환경에서도 독립적으로 사용
+
+> POJO와 spring 어노테이션의 관계
+- Spring이 POJO 기반이라고 하는 이유는, 어노테이션을 통해 Spring이 관리하더라도, 비즈니스 로직은 특정 프레임워크에 종속되지 않고 자유롭게 구현할 수 있기 때문
+- Spring 어노테이션을 사용하면 해당 클래스는 Spring에 의존하게 됨. 하지만, 이 의존성은 주로 Spring 컨테이너와 관련된 부분이며, 비즈니스 로직 자체는 여전히 순수 자바 객체로 작성
+
+## Spring Web MVC에서 요청 마다 Thread가 생성되어 Controller를 통해 요청을 수행할텐데, 어떻게 1개의 Controller만 생성될 수 있을까요?
+- Spring web MVC에서 컨트롤러는 기본적으로 싱글톤 스코프 (힙 메모리에 저장)이며, spring container가 해당 컨트롤러 빈을 한번만 생성합니다. 이후에 모든 요청에 대해서는 동일한 컨트롤러 인스턴스를 사용하여 처리되며, 상태 없는(stateless) 설계로 인해 여러 스레드가 동시에 접근해도 안전하게 동작합니다. 이는 인스턴스 변수를 사용하지 않고 로컬 변수를 사용해 데이터를 처리하기 때문입니다. 즉, 여러 요청이 동일한 컨트롤러 인스턴스를 공유하지만, 각 요청에 대해 별도의 스레드가 동작하기 때문에 1개의 컨트롤러로 처리가 가능합니다. 
+
+> 컨트롤러가 상태를 가지지 않는(stateless) 방식으로 설계된다는 것은 무엇을 의미하나요?
+- 모든 요청 데이터는 로컬 변수로 처리되며, 메서드 내에서만 존재하므로 각 요청이 독립적으로 처리될수있도록 설계된 방식입니다.
+
+## Spring WEB MVC의 근간에는 Java Servlet 이 있는데요. Spring 은 Servlet을 어떻게 구성해서 이를 구현했을까요?
+- Spring Web MVC는 Java servlet을 기반으로 동작하며, DispatcherServlet이 있습니다. DispatcherServlet은 Java Servlet의 HttpServlet을 상속받아 모든 요청을 중앙에서 처리하는 프론트 컨트롤러 역할을 수행합니다. 요청이 들어오면 DispatcherServlet은 HandlerMapping을 통해 적절한 컨트롤러를 찾아 호출하고, HandlerAdapter를 통해 컨트롤러 메서드를 실행합니다. 이후 반환된 결과를 ViewResolver를 통해 View로 변환하고 응답을 생성합니다. Spring은 이런 구조를 통해 Servlet Api를 확장해서 구현하였습니다. 
+
+## Filter는 Servlet의 스펙이고, Interceptor는 Spring MVC의 스펙입니다. Spring Application에서 Filter와 Interceptor를 통해 예외를 처리할 경우 어떻게 해야 할까요?
+> Filter
+-  doFilter메서드에서 try-catch를 사용하여 예외 처리.
+-  HttpServletResponse 상태코드를 설정하여 Client에 오류 메시지 전달
+
+> Interceptor
+- preHandle, postHandle 에서 발생한 예외는 @ControllerAdvice에서 처리
+- afterCompletion에서는 뷰 렌더링(클라이언트로 전송된 이후)까지 완료된 후에 호출이므로, @ControllerAdvice로 처리되지않고 주로 로깅 용도로 활용. 실제 예외 발생시 로그만 남기고 추가적인 처리 없이 종료 <br>
+  ex) db 커넥션, 파일 핸들러, 외부 api 호출 후 정리 작업 등 
+
+> filter와 interceptor 중 예외 처리를 위해 어떤 것을 선택해야 하나요?
+- 예외 처리가 spring mvc의 컨트롤러와 관련이 있거나 요청 흐름 중 발생할 가능성이 크다면 interceptor을 사용하는 것이 적합하고, 인증, 로깅, 필터링 등 전역적이고 독립적인 예외 처리가 필요하다면, filter가 적합합니다. 
+
+## Spring Application을 구동할 때 메서드를 실행시키는 방법에 대해 설명해주세요.
+> @PostConstruct
+- Bean이 초기화된 후 호출, 애플리케이션 구동 시점에 해당 메서드를 자동으로 실행 (주로 초기화 작업 처리시 사용)
+> CommandLineRunner 인터페이스
+- 애플리케이션 구동 후 실행되는 코드를 정의 할수 있음
+- run(String... args) 메서드를 구현하여 코드 작성
+> ApplicationRunner 인터페이스
+- CommandLineRunner와 유사하지만, 더 구조화된 ApplicationArguments 객체를 통해 인자를 전달받아 사용 가능
+> @EventListener
+- spring에서 제공하는 이벤트 시스템을 이용해 애플리케이션이 구동될때 실행할 코드 작성 가능
+
+>실무에서 비동기 초기화 작업을 애플리케이션 구동 시 처리해야 했던 경험이 있나요? 그런 작업을 어떤 방식으로 처리했는지 설명해주세요.
+
+## 의존성과 설정값을 생성자 인자로 주입해야 하는 이유에 대해 설명해주세요.
+- 객체의 불변성 확보 : 생성자 주입을 통해 변경의 가능성을 배제하고 불변성 보장
+- 컴파일 시점에 객체를 주입받아 테스트 코드 작성이 가능하며, 주입하는 객체가 null인 경우 컴파일 시점에 오류 발견 가능
+- 필드 객체에 final 키워드를 사용할 수 있고, 컴파일 시점에 누락된 의존성 확인 가능
+-  애플리케이션 구동 시점(객체 생성 시점)에 순환 참조 에러 방지 가능
+
+> 생성자 주입을 통해 객체의 책임을 명확히 할 수 있는 이유는 무엇인가요?
+- 생성자 주입은 객체가 의존하는 모든 것을 명시적으로 요구하기 때문에, 해당 객체가 어떤 의존성에 의존하는지 명확히 드러납니다. 이는 객체의 책임이 명확하게 정의되도록 도와주며, 해당 객체의 역할과 의존성을 쉽게 이해할 수 있게 합니다.
+> 생성자 주입을 사용했을 때, 객체 간 결합도를 낮추는 방법에는 무엇이 있나요?
+- 생성자 주입을 통해 결합도를 낮추기 위해서는 인터페이스를 통한 의존성 주입을 권장합니다. 구체적인 구현체 대신 인터페이스를 생성자 인자로 받아들이면, 객체 간 결합도를 낮추고, 다양한 구현체를 통해 의존성을 교체할 수 있어 유연성과 확장성을 높일 수 있습니다.
