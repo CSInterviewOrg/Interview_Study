@@ -197,7 +197,7 @@
 
 
 ## GROUP BY와 HAVING의 차이점은 무엇인가요?
-- GROUP BY는 결과 집합을 그룹화하는 데 사용되며, HAVING은 그룹화된 결과에 조건을 적용하는 데 사용됩니다. WHERE는 개별 행에 조건을 적용하지만, HAVING은 그룹화된 결과에만 조건을 적용할 수 있습니다.
+- GROUP BY는 결과 집합을 그룹화하는 데 사용되며, HAVING은 그룹화된 결과에 조건을 적용하는 데 사용됩니다.
 
 > GROUP BY에서 COUNT와 함께 사용하는 예는 무엇인가요?
 - SELECT column_name, COUNT(*) FROM table_name GROUP BY column_name;
@@ -211,8 +211,6 @@
 - 집계 함수(예: COUNT, SUM, AVG 등)는 WHERE 절에서 사용할 수 없고, HAVING 절에서 사용해야 합니다.
 > HAVING을 WHERE 대신 사용하는 경우는 언제인가요?
 - 집계된 데이터에 조건을 적용할 때 HAVING을 사용합니다.
-> WHERE 절에서 LIKE 연산자를 사용하는 예를 보여주세요.
-- SELECT * FROM table_name WHERE column_name LIKE 'A%';
 
 ## DISTINCT 키워드는 무엇을 하는가요?
 - DISTINCT 키워드는 SELECT 문에서 사용하여 중복된 값을 제거하고 고유한 값을 반환합니다. 이를 통해 쿼리 결과에서 중복된 행을 제외하고 고유한 결과를 얻을 수 있습니다.
