@@ -56,13 +56,13 @@
 
 ## SQL이란 무엇이며, SQL의 종류에는 무엇이 있나요?
 > 정의
-- SQL(Structured Query Language)은 관계형 데이터베이스에서 데이터를 관리하고 조작하기 위해 사용하는 표준 프로그래밍 언어입니다. SQL의 주요 기능은 데이터 조회(SELECT), 삽입(INSERT), 갱신(UPDATE), 삭제(DELETE) 등이 있으며, DDL(Data Definition Language), DML(Data Manipulation Language), DCL(Data Control Language) 및 TCL(Transaction Control Language)로 나뉩니다.
+- SQL(Structured Query Language)은 관계형 데이터베이스에서 데이터를 관리하고 조작하기 위해 사용하는 표준 프로그래밍 언어입니다. SQL의 주요 기능은 데이터 조회(SELECT), 삽입(INSERT), 갱신(UPDATE), 삭제(DELETE) 등이 있으며, DDL(Data Definition Language), DML(Data Manipulation Language), DCL(Data Control Language) 
 
-> DDL이란 무엇인가요?
+> DDL
 - DDL(Data Definition Language)은 데이터베이스 구조를 정의하는 SQL 명령어 집합으로, CREATE, ALTER, DROP 등이 있습니다.
-> DML이란 무엇인가요?
+> DML
 - DML(Data Manipulation Language)은 데이터베이스에 저장된 데이터를 조작하는 SQL 명령어로, SELECT, INSERT, UPDATE, DELETE 등이 있습니다.
-> DCL이란 무엇인가요?
+> DCL
 - DCL(Data Control Language)은 데이터베이스 사용 권한을 제어하는 SQL 명령어로, GRANT와 REVOKE가 있습니다.
 
 
