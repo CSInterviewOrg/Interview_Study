@@ -34,7 +34,7 @@
 - Document Database, Graph Database, Key-Value Database, Wide Column Database 등 다양한 데이터 모델 지원
 - 스키마가 없어서 데이터 구조가 자주 변경되거나 다양한 형태의 데이터 저장 가능
 - BASE 속성을 통해 일관성을 약하지만 가용성을 높임
-- 성 향상은 Scale out
+- 성능 향상은 Scale out
 
 > 차이점
 - RDBMS는 관계형 데이터베이스 관리 시스템으로, 데이터가 고정된 스키마를 가진 테이블 형태로 저장. 데이터 간의 관계를 명확하게 정의하고, SQL을 통해 데이터를 관리. 주로 ACID 속성을 준수하여 트랜잭션의 일관성과 무결성을 보장
