@@ -114,6 +114,7 @@
 
 ## CASE문을 사용하여 조건부로 데이터를 조회하는 방법을 설명해주세요.
 - **단순 CASE 문**: 특정 값이 주어진 조건과 일치할 때 결과를 반환하는 방식
+```sql
 SELECT EmployeeID, Name,
        CASE DepartmentID
            WHEN 1 THEN 'Sales'
@@ -122,8 +123,10 @@ SELECT EmployeeID, Name,
            ELSE 'Other'
        END AS DepartmentName
 FROM Employees;
+```
 
 - ** 검색 CASE 문**: 특정 조건이 주어진 조건과 일치할 때 결과를 반환하는 방식
+```sql
 SELECT EmployeeID, Name, Salary,
        CASE
            WHEN Salary < 30000 THEN 'Low'
@@ -132,3 +135,4 @@ SELECT EmployeeID, Name, Salary,
            ELSE 'Unknown'
        END AS SalaryCategory
 FROM Employees;
+```
