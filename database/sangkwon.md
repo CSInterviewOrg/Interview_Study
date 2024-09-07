@@ -125,7 +125,7 @@ SELECT EmployeeID, Name,
 FROM Employees;
 ```
 
-- ** 검색 CASE 문**: 특정 조건이 주어진 조건과 일치할 때 결과를 반환하는 방식
+- **검색 CASE 문**: 특정 조건이 주어진 조건과 일치할 때 결과를 반환하는 방식
 ```sql
 SELECT EmployeeID, Name, Salary,
        CASE
