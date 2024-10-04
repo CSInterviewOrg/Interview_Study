@@ -175,7 +175,7 @@
 
 ## 네트워크에서 CORS(Cross-Origin Resource Sharing)는 무엇인가요?
 > CORS(Cross-Origin Resource Sharing)란?
-- 웹 브라우저가 다른 출처의 리소스에 대한 접근을 허용하는 정책
+- 웹 브라우저가 다른 출처의 리소스에 대한 접근을 대해서 제어하는것
 - SOP 정책을 위반해도 CORS 정책에 따르면 다른출처의 리소스를 허용
   
 > SOP(Same Origin Policy)
