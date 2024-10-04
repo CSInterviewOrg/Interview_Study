@@ -107,7 +107,7 @@
     
     1. ARP 요청
     - Host A가 Host B의 IP에 있는 모든 Host에게 Broad Cast 방식으로 MAC 주소 요청
-    - 
+      
     2. ARP 응답
     - 자신의 IP에 해당하는 Host가 MAC 주소를 Unicast 방식으로 반환
     
