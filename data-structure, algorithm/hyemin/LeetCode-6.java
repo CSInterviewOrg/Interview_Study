@@ -17,6 +17,6 @@ class LeetCode6{
                 }
             }
         }
-        return new String(result);
+        return result.toString();
     }
 }
